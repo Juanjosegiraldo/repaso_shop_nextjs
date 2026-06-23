@@ -6,6 +6,15 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: __dirname,
   },
+  // Allow next/image to load product images from these external hosts.
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "res.cloudinary.com" },
+      { protocol: "https", hostname: "images.pexels.com" },
+      { protocol: "https", hostname: "placehold.co" },
+      { protocol: "https", hostname: "picsum.photos" },
+    ],
+  },
 };
 
 export default nextConfig;
