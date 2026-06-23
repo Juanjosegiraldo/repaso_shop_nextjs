@@ -50,4 +50,12 @@ export const en = {
     creating: "Creating...",
     signingIn: "Signing in...",
   },
+  dashboard: {
+    title: "Dashboard",
+    aiTitle: "AI sales report",
+    generate: "Generate report",
+    generating: "Generating...",
+    download: "Download .txt",
+    hint: "Click to generate an AI rotation and stock report.",
+  },
 };

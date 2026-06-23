@@ -50,4 +50,12 @@ export const es = {
     creating: "Creando...",
     signingIn: "Entrando...",
   },
+  dashboard: {
+    title: "Panel",
+    aiTitle: "Informe de ventas con IA",
+    generate: "Generar informe",
+    generating: "Generando...",
+    download: "Descargar .txt",
+    hint: "Pulsa para generar un informe de rotación y stock con IA.",
+  },
 };

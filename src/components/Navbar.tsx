@@ -47,6 +47,9 @@ export default function Navbar() {
             <Button size="sm" onPress={() => router.push("/cart")}>
               {text.nav.cart}
             </Button>
+            <Button size="sm" onPress={() => router.push("/dashboard")}>
+              {text.dashboard.title}
+            </Button>
             <span className="text-sm">
               {text.nav.greeting} {user.name}
             </span>

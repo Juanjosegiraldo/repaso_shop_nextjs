@@ -50,4 +50,12 @@ export const pt = {
     creating: "Criando...",
     signingIn: "Entrando...",
   },
+  dashboard: {
+    title: "Painel",
+    aiTitle: "Relatório de vendas com IA",
+    generate: "Gerar relatório",
+    generating: "Gerando...",
+    download: "Baixar .txt",
+    hint: "Clique para gerar um relatório de rotação e estoque com IA.",
+  },
 };
