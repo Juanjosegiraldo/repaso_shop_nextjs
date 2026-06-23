@@ -6,6 +6,7 @@ import { Button } from "@heroui/react";
 import { useAuth } from "@/context/AuthContext";
 import { useTranslation } from "@/context/i18nContext";
 import { generateSalesReport } from "@/services/ai";
+import { getSalesExport } from "@/services/sales";
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -27,14 +28,45 @@ export default function DashboardPage() {
     setLoading(false);
   };
 
-  const handleDownload = () => {
-    const blob = new Blob([report], { type: "text/plain;charset=utf-8" });
+  // Trigger a browser download for any text content.
+  const downloadFile = (content: string, filename: string, type: string) => {
+    const blob = new Blob([content], { type });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "sales-report.txt";
+    link.download = filename;
     link.click();
     URL.revokeObjectURL(url);
+  };
+
+  const handleDownload = () => {
+    downloadFile(report, "sales-report.txt", "text/plain;charset=utf-8");
+  };
+
+  // Bonus (download side): export this month's sales as a CSV file.
+  const handleDownloadCsv = async () => {
+    const { sales } = await getSalesExport();
+    const rows: string[][] = [
+      ["saleId", "date", "product", "quantity", "unitPrice", "lineTotal"],
+    ];
+    for (const sale of sales) {
+      for (const item of sale.items) {
+        rows.push([
+          sale._id,
+          new Date(sale.createdAt).toISOString(),
+          item.name,
+          String(item.quantity),
+          String(item.price),
+          String(item.price * item.quantity),
+        ]);
+      }
+    }
+    const csv = rows
+      .map((row) =>
+        row.map((field) => `"${field.replace(/"/g, '""')}"`).join(",")
+      )
+      .join("\n");
+    downloadFile(csv, "sales-report.csv", "text/csv;charset=utf-8");
   };
 
   if (!user) return null;
@@ -54,6 +86,9 @@ export default function DashboardPage() {
           {report && (
             <Button onPress={handleDownload}>{text.dashboard.download}</Button>
           )}
+          <Button onPress={handleDownloadCsv}>
+            {text.dashboard.downloadCsv}
+          </Button>
         </div>
 
         {report && (

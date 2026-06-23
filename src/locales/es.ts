@@ -56,6 +56,7 @@ export const es = {
     generate: "Generar informe",
     generating: "Generando...",
     download: "Descargar .txt",
+    downloadCsv: "Descargar ventas .csv",
     hint: "Pulsa para generar un informe de rotación y stock con IA.",
   },
 };

@@ -21,6 +21,19 @@ export interface Sale {
   createdAt: string;
 }
 
+export interface SalesExport {
+  sales: Sale[];
+  count: number;
+  total: number;
+}
+
+// Fetch this month's sales so the dashboard can build a downloadable CSV.
+export async function getSalesExport(): Promise<SalesExport> {
+  const res = await fetch(`${BASE_URL}/api/sales/export`, { cache: "no-store" });
+  const json: ApiResponse<SalesExport | null> = await res.json();
+  return json.data ?? { sales: [], count: 0, total: 0 };
+}
+
 // Register the purchase: the server turns the user's cart into a sale.
 export async function createSale(userId: string): Promise<Sale | null> {
   const res = await fetch(`${BASE_URL}/api/sales`, {

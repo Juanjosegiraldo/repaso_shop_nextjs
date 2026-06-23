@@ -56,6 +56,7 @@ export const en = {
     generate: "Generate report",
     generating: "Generating...",
     download: "Download .txt",
+    downloadCsv: "Download sales .csv",
     hint: "Click to generate an AI rotation and stock report.",
   },
 };

@@ -56,6 +56,7 @@ export const pt = {
     generate: "Gerar relatório",
     generating: "Gerando...",
     download: "Baixar .txt",
+    downloadCsv: "Baixar vendas .csv",
     hint: "Clique para gerar um relatório de rotação e estoque com IA.",
   },
 };
