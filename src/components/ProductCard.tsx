@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button, Card } from "@heroui/react";
+import { useTranslation } from "@/context/i18nContext";
 
 interface ProductCardProps {
   id: string;
@@ -22,6 +23,7 @@ export default function ProductCard({
   onToggleFavorite,
 }: ProductCardProps) {
   const router = useRouter();
+  const { text } = useTranslation();
 
   return (
     <Card className="w-64 shrink-0">
@@ -50,7 +52,7 @@ export default function ProductCard({
         <h3 className="font-semibold">{name}</h3>
         <p className="text-sm text-gray-600">${price.toFixed(2)}</p>
         <Button fullWidth onPress={() => router.push(`/products/${id}`)}>
-          Ver detalles
+          {text.catalog.viewDetails}
         </Button>
       </Card.Footer>
     </Card>

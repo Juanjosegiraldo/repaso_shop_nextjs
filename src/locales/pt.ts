@@ -1,0 +1,53 @@
+// Portuguese strings. Must keep the same shape as `es`.
+export const pt = {
+  nav: {
+    login: "Entrar",
+    register: "Cadastrar",
+    logout: "Sair",
+    favorites: "Favoritos",
+    cart: "Carrinho",
+    greeting: "Olá,",
+    language: "Idioma",
+  },
+  catalog: {
+    loading: "Carregando produtos...",
+    empty: "Ainda não há produtos. Popule o catálogo ou crie um.",
+    viewDetails: "Ver detalhes",
+  },
+  detail: {
+    loading: "Carregando...",
+    notFound: "Produto não encontrado.",
+    stock: "Estoque",
+    addToCart: "Adicionar ao carrinho",
+    added: "Adicionado ao carrinho.",
+    addFailed: "Não foi possível adicionar ao carrinho.",
+    comments: "Comentários",
+    noComments: "Ainda não há comentários. Seja o primeiro a comentar!",
+    commentPlaceholder: "Escreva um comentário...",
+    send: "Enviar",
+    sending: "Enviando...",
+  },
+  favorites: {
+    title: "Meus favoritos",
+    empty: "Você ainda não tem favoritos.",
+  },
+  cart: {
+    title: "Meu carrinho",
+    empty: "Seu carrinho está vazio.",
+    total: "Total",
+    buy: "Comprar",
+    purchaseComplete: "Compra concluída! Total",
+    purchaseFailed: "Não foi possível concluir a compra.",
+  },
+  auth: {
+    loginTitle: "Entrar",
+    registerTitle: "Criar conta",
+    name: "Nome",
+    email: "E-mail",
+    password: "Senha",
+    login: "Entrar",
+    register: "Cadastrar",
+    creating: "Criando...",
+    signingIn: "Entrando...",
+  },
+};

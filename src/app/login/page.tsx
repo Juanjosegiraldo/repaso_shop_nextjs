@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 import { Button, Input } from "@heroui/react";
 import { loginUser } from "@/services/auth";
 import { useAuth } from "@/context/AuthContext";
+import { useTranslation } from "@/context/i18nContext";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
+  const { text } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -36,24 +38,24 @@ export default function LoginPage() {
 
   return (
     <main className="mx-auto max-w-sm p-6">
-      <h1 className="mb-4 text-2xl font-bold">Log in</h1>
+      <h1 className="mb-4 text-2xl font-bold">{text.auth.loginTitle}</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <Input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
+          placeholder={text.auth.email}
           required
         />
         <Input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
+          placeholder={text.auth.password}
           required
         />
         <Button type="submit" isDisabled={loading}>
-          {loading ? "Signing in..." : "Login"}
+          {loading ? text.auth.signingIn : text.auth.login}
         </Button>
       </form>
       {message && <p className="mt-4 text-sm text-red-600">{message}</p>}

@@ -1,16 +1,17 @@
+"use client";
+
 import type { Comment } from "@/services/comments";
+import { useTranslation } from "@/context/i18nContext";
 
 interface CommentListProps {
   comments: Comment[];
 }
 
 export default function CommentList({ comments }: CommentListProps) {
+  const { text } = useTranslation();
+
   if (comments.length === 0) {
-    return (
-      <p className="text-gray-600">
-        No hay comentarios aún. ¡Sé el primero en comentar!
-      </p>
-    );
+    return <p className="text-gray-600">{text.detail.noComments}</p>;
   }
 
   return (

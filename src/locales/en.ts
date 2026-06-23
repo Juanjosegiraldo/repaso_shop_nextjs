@@ -1,0 +1,53 @@
+// English strings. Must keep the same shape as `es`.
+export const en = {
+  nav: {
+    login: "Log in",
+    register: "Register",
+    logout: "Log out",
+    favorites: "Favorites",
+    cart: "Cart",
+    greeting: "Hi,",
+    language: "Language",
+  },
+  catalog: {
+    loading: "Loading products...",
+    empty: "No products yet. Seed the catalog or create one.",
+    viewDetails: "View details",
+  },
+  detail: {
+    loading: "Loading...",
+    notFound: "Product not found.",
+    stock: "Stock",
+    addToCart: "Add to cart",
+    added: "Added to cart.",
+    addFailed: "Could not add to cart.",
+    comments: "Comments",
+    noComments: "No comments yet. Be the first to comment!",
+    commentPlaceholder: "Write a comment...",
+    send: "Send",
+    sending: "Sending...",
+  },
+  favorites: {
+    title: "My favorites",
+    empty: "No favorites yet.",
+  },
+  cart: {
+    title: "My cart",
+    empty: "Your cart is empty.",
+    total: "Total",
+    buy: "Buy",
+    purchaseComplete: "Purchase complete! Total",
+    purchaseFailed: "Could not complete the purchase.",
+  },
+  auth: {
+    loginTitle: "Log in",
+    registerTitle: "Create account",
+    name: "Name",
+    email: "Email",
+    password: "Password",
+    login: "Login",
+    register: "Register",
+    creating: "Creating...",
+    signingIn: "Signing in...",
+  },
+};

@@ -7,6 +7,7 @@ import { getProductById, type Product } from "@/services/productService";
 import { getCommentsByProduct, type Comment } from "@/services/comments";
 import { addToCart } from "@/services/cart";
 import { useAuth } from "@/context/AuthContext";
+import { useTranslation } from "@/context/i18nContext";
 import CommentForm from "@/components/CommentForm";
 import CommentList from "@/components/CommentList";
 
@@ -17,6 +18,7 @@ export default function ProductDetailPage() {
 
   const router = useRouter();
   const { user } = useAuth();
+  const { text } = useTranslation();
   const [product, setProduct] = useState<Product | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +31,7 @@ export default function ProductDetailPage() {
       return;
     }
     const ok = await addToCart(user._id, id);
-    setCartMessage(ok ? "Added to cart." : "Could not add to cart.");
+    setCartMessage(ok ? text.detail.added : text.detail.addFailed);
   };
 
   useEffect(() => {
@@ -50,7 +52,7 @@ export default function ProductDetailPage() {
   if (loading) {
     return (
       <main className="p-6">
-        <p>Loading...</p>
+        <p>{text.detail.loading}</p>
       </main>
     );
   }
@@ -58,7 +60,7 @@ export default function ProductDetailPage() {
   if (!product) {
     return (
       <main className="p-6">
-        <p>Producto no encontrado.</p>
+        <p>{text.detail.notFound}</p>
       </main>
     );
   }
@@ -79,16 +81,18 @@ export default function ProductDetailPage() {
           </ul>
         )}
 
-        <p className="mt-3 text-sm text-gray-600">Stock: {product.stock}</p>
+        <p className="mt-3 text-sm text-gray-600">
+          {text.detail.stock}: {product.stock}
+        </p>
 
         <Button className="mt-4" onPress={handleAddToCart}>
-          Add to cart
+          {text.detail.addToCart}
         </Button>
         {cartMessage && <p className="mt-2 text-sm">{cartMessage}</p>}
       </section>
 
       <section>
-        <h2 className="mb-3 text-xl font-semibold">Comments</h2>
+        <h2 className="mb-3 text-xl font-semibold">{text.detail.comments}</h2>
         <CommentForm productId={id} onCreated={handleCreated} />
         <div className="mt-4">
           <CommentList comments={comments} />

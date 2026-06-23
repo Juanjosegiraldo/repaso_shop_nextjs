@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button, Input } from "@heroui/react";
 import { createComment, type Comment } from "@/services/comments";
+import { useTranslation } from "@/context/i18nContext";
 
 interface CommentFormProps {
   productId: string;
@@ -10,6 +11,7 @@ interface CommentFormProps {
 }
 
 export default function CommentForm({ productId, onCreated }: CommentFormProps) {
+  const { text } = useTranslation();
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -35,11 +37,11 @@ export default function CommentForm({ productId, onCreated }: CommentFormProps) 
       <Input
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="Write a comment..."
+        placeholder={text.detail.commentPlaceholder}
         className="flex-1"
       />
       <Button type="submit" isDisabled={loading}>
-        {loading ? "Sending..." : "Send"}
+        {loading ? text.detail.sending : text.detail.send}
       </Button>
     </form>
   );

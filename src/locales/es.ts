@@ -1,0 +1,53 @@
+// Spanish strings. This object's shape defines the Translations type.
+export const es = {
+  nav: {
+    login: "Iniciar sesión",
+    register: "Registrarse",
+    logout: "Cerrar sesión",
+    favorites: "Favoritos",
+    cart: "Carrito",
+    greeting: "Hola,",
+    language: "Idioma",
+  },
+  catalog: {
+    loading: "Cargando productos...",
+    empty: "Aún no hay productos. Siembra el catálogo o crea uno.",
+    viewDetails: "Ver detalles",
+  },
+  detail: {
+    loading: "Cargando...",
+    notFound: "Producto no encontrado.",
+    stock: "Stock",
+    addToCart: "Agregar al carrito",
+    added: "Agregado al carrito.",
+    addFailed: "No se pudo agregar al carrito.",
+    comments: "Comentarios",
+    noComments: "No hay comentarios aún. ¡Sé el primero en comentar!",
+    commentPlaceholder: "Escribe un comentario...",
+    send: "Enviar",
+    sending: "Enviando...",
+  },
+  favorites: {
+    title: "Mis favoritos",
+    empty: "Aún no tienes favoritos.",
+  },
+  cart: {
+    title: "Mi carrito",
+    empty: "Tu carrito está vacío.",
+    total: "Total",
+    buy: "Comprar",
+    purchaseComplete: "¡Compra realizada! Total",
+    purchaseFailed: "No se pudo completar la compra.",
+  },
+  auth: {
+    loginTitle: "Iniciar sesión",
+    registerTitle: "Crear cuenta",
+    name: "Nombre",
+    email: "Correo",
+    password: "Contraseña",
+    login: "Entrar",
+    register: "Registrarse",
+    creating: "Creando...",
+    signingIn: "Entrando...",
+  },
+};

@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@heroui/react";
 import { useAuth } from "@/context/AuthContext";
+import { useTranslation } from "@/context/i18nContext";
 import { getCart, type CartView } from "@/services/cart";
 import { createSale } from "@/services/sales";
 
 export default function CartPage() {
   const router = useRouter();
   const { user } = useAuth();
+  const { text } = useTranslation();
   const [cart, setCart] = useState<CartView>({ items: [], total: 0 });
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
@@ -28,10 +30,10 @@ export default function CartPage() {
     if (!user) return;
     const sale = await createSale(user._id);
     if (sale) {
-      setMessage(`Purchase complete! Total $${sale.total.toFixed(2)}.`);
+      setMessage(`${text.cart.purchaseComplete} $${sale.total.toFixed(2)}.`);
       setCart({ items: [], total: 0 });
     } else {
-      setMessage("Could not complete the purchase.");
+      setMessage(text.cart.purchaseFailed);
     }
   };
 
@@ -39,17 +41,17 @@ export default function CartPage() {
   if (loading) {
     return (
       <main className="p-6">
-        <p>Loading...</p>
+        <p>{text.detail.loading}</p>
       </main>
     );
   }
 
   return (
     <main className="mx-auto max-w-2xl p-6">
-      <h1 className="mb-6 text-3xl font-bold">My cart</h1>
+      <h1 className="mb-6 text-3xl font-bold">{text.cart.title}</h1>
 
       {cart.items.length === 0 ? (
-        <p className="text-gray-600">Your cart is empty.</p>
+        <p className="text-gray-600">{text.cart.empty}</p>
       ) : (
         <>
           <ul className="flex flex-col">
@@ -66,10 +68,10 @@ export default function CartPage() {
             ))}
           </ul>
           <p className="mt-4 text-lg font-bold">
-            Total: ${cart.total.toFixed(2)}
+            {text.cart.total}: ${cart.total.toFixed(2)}
           </p>
           <Button className="mt-4" onPress={handleBuy}>
-            Buy
+            {text.cart.buy}
           </Button>
         </>
       )}

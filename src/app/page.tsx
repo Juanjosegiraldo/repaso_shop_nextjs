@@ -6,10 +6,12 @@ import { getProducts, type Product } from "@/services/productService";
 import { getFavorites, toggleFavorite } from "@/services/favorites";
 import ProductCard from "@/components/ProductCard";
 import { useAuth } from "@/context/AuthContext";
+import { useTranslation } from "@/context/i18nContext";
 
 export default function CatalogPage() {
   const router = useRouter();
   const { user } = useAuth();
+  const { text } = useTranslation();
   const [products, setProducts] = useState<Product[]>([]);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
@@ -54,11 +56,9 @@ export default function CatalogPage() {
       <h1 className="mb-6 text-3xl font-bold">ShopNova</h1>
 
       {loading ? (
-        <p>Loading products...</p>
+        <p>{text.catalog.loading}</p>
       ) : products.length === 0 ? (
-        <p className="text-gray-600">
-          No products yet. Seed the catalog or create one.
-        </p>
+        <p className="text-gray-600">{text.catalog.empty}</p>
       ) : (
         <div className="flex gap-4 overflow-x-auto pb-4">
           {products.map((product) => (
