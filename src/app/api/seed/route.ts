@@ -1,15 +1,16 @@
 import { connectDB } from "@/lib/database";
 import { Product, type IProduct } from "@/database/models/Product";
+import { buscarImagen } from "@/helpers/pexels";
 
-// Sample catalog data. Image URLs are placeholders just to see the catalog.
-const sampleProducts: Pick<
+// Sample catalog data. The image is NOT set here: the seed fetches a matching
+// photo by name from Pexels so the catalog fills up without manual uploads.
+const sampleProducts: Omit<
   IProduct,
-  "name" | "price" | "image" | "description" | "specs" | "stock"
+  "image" | "createdAt" | "updatedAt"
 >[] = [
   {
     name: "Wireless Headphones",
     price: 129.99,
-    image: "https://picsum.photos/seed/headphones/600/600",
     description: "Over-ear headphones with active noise cancellation.",
     specs: ["Bluetooth 5.3", "30h battery", "USB-C"],
     stock: 25,
@@ -17,35 +18,41 @@ const sampleProducts: Pick<
   {
     name: "Mechanical Keyboard",
     price: 89.5,
-    image: "https://picsum.photos/seed/keyboard/600/600",
     description: "Hot-swappable mechanical keyboard with RGB backlight.",
     specs: ["Red switches", "75% layout", "Detachable cable"],
     stock: 40,
   },
   {
-    name: "4K Monitor 27\"",
-    price: 329.0,
-    image: "https://picsum.photos/seed/monitor/600/600",
-    description: "27-inch IPS monitor with HDR support.",
-    specs: ["3840x2160", "144Hz", "HDMI + DisplayPort"],
-    stock: 12,
+    name: "Coffee Mug",
+    price: 12.0,
+    description: "Ceramic mug, 350ml, dishwasher safe.",
+    specs: ["350ml", "Ceramic", "Microwave safe"],
+    stock: 100,
   },
   {
-    name: "Ergonomic Mouse",
-    price: 45.99,
-    image: "https://picsum.photos/seed/mouse/600/600",
-    description: "Vertical ergonomic mouse to reduce wrist strain.",
-    specs: ["Wireless", "4000 DPI", "6 buttons"],
-    stock: 60,
+    name: "Running Shoes",
+    price: 79.9,
+    description: "Lightweight running shoes with breathable mesh.",
+    specs: ["Mesh upper", "EVA sole", "Unisex"],
+    stock: 35,
   },
 ];
 
-// POST /api/seed — reset the catalog with the sample products.
+// POST /api/seed — reset the catalog and auto-assign an image per product.
 export async function POST() {
   try {
     await connectDB();
     await Product.deleteMany({});
-    const products = await Product.insertMany(sampleProducts);
+
+    // Resolve one image per product by its name.
+    const withImages = await Promise.all(
+      sampleProducts.map(async (p) => ({
+        ...p,
+        image: await buscarImagen(p.name),
+      }))
+    );
+
+    const products = await Product.insertMany(withImages);
     return Response.json(
       { data: products, code: 201, message: `Seeded ${products.length} products` },
       { status: 201 }
