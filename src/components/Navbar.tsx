@@ -26,6 +26,12 @@ export default function Navbar() {
       <div className="flex items-center gap-3">
         {user ? (
           <>
+            <Button size="sm" onPress={() => router.push("/favorites")}>
+              Favorites
+            </Button>
+            <Button size="sm" onPress={() => router.push("/cart")}>
+              Cart
+            </Button>
             <span className="text-sm">Hi, {user.name}</span>
             <Button size="sm" onPress={handleLogout}>
               Logout

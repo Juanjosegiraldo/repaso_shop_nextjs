@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getProducts, type Product } from "@/services/productService";
+import { getFavorites, toggleFavorite } from "@/services/favorites";
 import ProductCard from "@/components/ProductCard";
 import { useAuth } from "@/context/AuthContext";
 
@@ -19,18 +20,30 @@ export default function CatalogPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const toggleFavorite = (id: string) => {
+  // Load the user's favorites so the stars reflect what is already saved.
+  useEffect(() => {
+    if (!user) {
+      setFavorites(new Set());
+      return;
+    }
+    getFavorites(user._id).then((favs) =>
+      setFavorites(new Set(favs.map((p) => p._id)))
+    );
+  }, [user]);
+
+  const handleToggleFavorite = async (id: string) => {
     // Protected action: require a session before marking favorites.
     if (!user) {
       router.push("/login");
       return;
     }
+    const { favorited } = await toggleFavorite(user._id, id);
     setFavorites((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) {
-        next.delete(id);
-      } else {
+      if (favorited) {
         next.add(id);
+      } else {
+        next.delete(id);
       }
       return next;
     });
@@ -56,7 +69,7 @@ export default function CatalogPage() {
               price={product.price}
               image={product.image}
               isFavorite={favorites.has(product._id)}
-              onToggleFavorite={toggleFavorite}
+              onToggleFavorite={handleToggleFavorite}
             />
           ))}
         </div>

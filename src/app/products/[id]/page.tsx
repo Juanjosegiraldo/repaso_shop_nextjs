@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { Button } from "@heroui/react";
 import { getProductById, type Product } from "@/services/productService";
 import { getCommentsByProduct, type Comment } from "@/services/comments";
+import { addToCart } from "@/services/cart";
+import { useAuth } from "@/context/AuthContext";
 import CommentForm from "@/components/CommentForm";
 import CommentList from "@/components/CommentList";
 
@@ -12,9 +15,22 @@ export default function ProductDetailPage() {
   const params = useParams<{ id: string }>();
   const id = params.id;
 
+  const router = useRouter();
+  const { user } = useAuth();
   const [product, setProduct] = useState<Product | null>(null);
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [cartMessage, setCartMessage] = useState("");
+
+  const handleAddToCart = async () => {
+    // Protected action: send anonymous users to login.
+    if (!user) {
+      router.push("/login");
+      return;
+    }
+    const ok = await addToCart(user._id, id);
+    setCartMessage(ok ? "Added to cart." : "Could not add to cart.");
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -64,6 +80,11 @@ export default function ProductDetailPage() {
         )}
 
         <p className="mt-3 text-sm text-gray-600">Stock: {product.stock}</p>
+
+        <Button className="mt-4" onPress={handleAddToCart}>
+          Add to cart
+        </Button>
+        {cartMessage && <p className="mt-2 text-sm">{cartMessage}</p>}
       </section>
 
       <section>
