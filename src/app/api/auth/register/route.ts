@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/database";
 import { User } from "@/database/models/User";
+import { sendWelcomeEmail } from "@/lib/mail";
 
 // POST /api/auth/register — create a user with a hashed password.
 export async function POST(request: Request) {
@@ -30,6 +31,15 @@ export async function POST(request: Request) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ name, email, password: hashedPassword });
+
+    // Send the welcome email, but never block registration if it fails.
+    try {
+      await sendWelcomeEmail(user.name, user.email);
+    } catch (mailError) {
+      const mailMessage =
+        mailError instanceof Error ? mailError.message : String(mailError);
+      console.error("Welcome email failed:", mailMessage);
+    }
 
     // Never return the password hash.
     return Response.json(
