@@ -47,6 +47,16 @@ export async function createProduct(input: ProductInput): Promise<Product> {
   return json.data;
 }
 
+// Create a product sending a multipart form (image file uploaded to Cloudinary).
+export async function createProductWithImage(form: FormData): Promise<Product> {
+  const res = await fetch(`${BASE_URL}/api/products/upload`, {
+    method: "POST",
+    body: form,
+  });
+  const json: ApiResponse<Product> = await res.json();
+  return json.data;
+}
+
 export async function updateProduct(
   id: string,
   input: Partial<ProductInput>
