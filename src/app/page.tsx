@@ -1,10 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { getProducts, type Product } from "@/services/productService";
 import ProductCard from "@/components/ProductCard";
+import { useAuth } from "@/context/AuthContext";
 
 export default function CatalogPage() {
+  const router = useRouter();
+  const { user } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(true);
@@ -16,6 +20,11 @@ export default function CatalogPage() {
   }, []);
 
   const toggleFavorite = (id: string) => {
+    // Protected action: require a session before marking favorites.
+    if (!user) {
+      router.push("/login");
+      return;
+    }
     setFavorites((prev) => {
       const next = new Set(prev);
       if (next.has(id)) {
